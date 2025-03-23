@@ -119,7 +119,8 @@
 				if($n_lambda2_max<$n_lambda2_local) $n_lambda2_max=$n_lambda2_local;
 
 				// test ukośny
-				for($i=0; $i<$considerated_x_label; $i++)
+				$test=$considerated_x_label<=$considerated_y_label?$considerated_x_label:$considerated_y_label;
+				for($i=0; $i<$test; $i++)
 				{
 					if(sqrt(($shield[$considerated_x_label][$considerated_y_label]["y_p"]-$shield[$i][$i]["y_k"])**2+(($shield[$considerated_x_label][$considerated_y_label]["x_p"]-$shield[$i][$i]["x_k"]))**2)<$LAMBDA2)
 					{
@@ -145,9 +146,14 @@
 				// wyznaczenie S dla aktualnego przypadku i zapisanie wyniku w tablicy jeśli spełnia warunek minimalnego tłumienia
 				$current_s=S($L, $n_lambda2_max);
 				if($current_s>=$S_MIN)
-					$S_ARR[]=[$current_s, $L, $d, $n_lambda2_max, $current_n_x, $current_n_y, (3*$a*2*$a*$current_n_x*$current_n_y)/($SCREEN[0]*$SCREEN[1])];
+					$S_ARR[]=["s" => $current_s, "l" => $L, "d" => $d, "n_lambda2" => $n_lambda2_max, "n_x" => $current_n_x, "n_y" => $current_n_y, "P_o/P_c" => (3*$a*2*$a*$current_n_x*$current_n_y)/($SCREEN[0]*$SCREEN[1])];
 			}
 		}
 	}
-	print_r($S_ARR);
+	//print_r($S_ARR);
+	//$temp_max_arr = max(array_column($S_ARR, "P_o/P_c"));
+	//print_r(array_filter($S_ARR, fn($item) => $item["P_o/P_c"] === $temp_max_arr));
+	usort($S_ARR, fn($a, $b) => $b["P_o/P_c"] <=> $a["P_o/P_c"]);
+	print_r(array_slice($S_ARR, 0, 4));
+
 ?>
