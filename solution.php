@@ -6,7 +6,7 @@
 	$LAMBDA=$LIGHTSPEED/($FREQUENCY*(10**9)); // [m]
 	$LAMBDA2=$LAMBDA/2;
 	$LAMBDA10=$LAMBDA/10;
-	$L=0.05*(10**(-3)); // minimalny zakładany wymiar liniowy otworu [m]
+	$L=0.001; // minimalny zakładany wymiar liniowy otworu [m]
 	$L_MAX=($LAMBDA)/(20**($S_MIN/20)); // maksymalny wymiar liniowy otworu przy którym ekran spełnia tłumienie $S_MIN [dB]
 	$MIN_MARGIN=0.01; // minimalny margines na brzegu ekranu [m]
 	$XY_MARGINS=$SCREEN[0]-($MIN_MARGIN*2);
@@ -52,7 +52,7 @@
 
 	//print("lambda=$LAMBDA, max_l=$L_MAX");
 	
-	for($L;$L<=$L_MAX;$L+=0.001)
+	for($L;$L<=$L_MAX;$L+=0.0001)
 	{
 		// wyznaczenie a
 		$a=Get_a($L);
@@ -146,7 +146,7 @@
 				// wyznaczenie S dla aktualnego przypadku i zapisanie wyniku w tablicy jeśli spełnia warunek minimalnego tłumienia
 				$current_s=S($L, $n_lambda2_max);
 				if($current_s>=$S_MIN)
-					$S_ARR[]=["s" => $current_s, "l" => $L, "d" => $d, "n_lambda2" => $n_lambda2_max, "n_x" => $current_n_x, "n_y" => $current_n_y, "P_o/P_c" => (3*$a*2*$a*$current_n_x*$current_n_y)/($SCREEN[0]*$SCREEN[1])];
+					$S_ARR[]=["s" => $current_s, "l" => $L, "d" => $d, "a" => $a, "n_lambda2" => $n_lambda2_max, "n_x" => $current_n_x, "n_y" => $current_n_y, "P_o/P_c" => (3*$a*2*$a*$current_n_x*$current_n_y)/($SCREEN[0]*$SCREEN[1])];
 			}
 		}
 	}
